@@ -32,6 +32,10 @@
     min-width: 7.5rem;
 }
 
+.button-delete {
+    background-color: red;
+}
+
 .add-task-wrapper {
     display: flex;
     justify-content: center;
