@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./styles/App.css";
+import Task from "./components/Task";
 
 function App() {
     const [tasks, setTasks] = useState<string[]>([
@@ -35,16 +36,7 @@ function App() {
             </div>
             <ol className="tasks">
                 {tasks.map((text, index) => {
-                    return (
-                        <li className="task" key={index}>
-                            <p className="task__text">
-                                {index + 1}.&nbsp;{text}
-                            </p>
-                            <button className="button button-delete" onClick={() => deleteTask(index)}>
-                                Delete
-                            </button>
-                        </li>
-                    );
+                    return <Task text={text} index={index} deleteTask={deleteTask} />;
                 })}
             </ol>
         </div>
