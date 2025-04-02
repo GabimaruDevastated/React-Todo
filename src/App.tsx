@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./styles/App.css";
-import Task from "./components/Task";
+import Task from "./components/Task/Task";
 
 function App() {
     const [tasks, setTasks] = useState<string[]>([
@@ -39,6 +39,12 @@ function App() {
                     return <Task text={text} index={index} deleteTask={deleteTask} />;
                 })}
             </ol>
+            <p className="developer">
+                <span>Developer: </span>
+                <a className="link" href="https://github.com/GabimaruDevastated">
+                    GabimaruDevastated
+                </a>
+            </p>
         </div>
     );
 }

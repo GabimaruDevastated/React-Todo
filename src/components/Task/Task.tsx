@@ -1,4 +1,6 @@
 import { FC } from "react";
+import IconTrash from "../../assets/icons/trash";
+import "./task.css";
 
 interface TaskProps {
     index: number;
@@ -11,12 +13,10 @@ const Task: FC<TaskProps> = (props) => {
 
     return (
         <li className="task" key={index}>
-            <p className="task__text">
-                {index + 1}.&nbsp;{text}
-            </p>
-            <button className="button button-delete" onClick={() => deleteTask(index)}>
-                Delete
-            </button>
+            <div className="task__inner">
+                <input className="checkbox" type="checkbox" name="checkbox" />
+                <p className="task__text">{text}</p>
+            </div>
         </li>
     );
 };
