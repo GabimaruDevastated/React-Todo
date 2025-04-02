@@ -17,6 +17,9 @@ const Task: FC<TaskProps> = (props) => {
                 <input className="checkbox" type="checkbox" name="checkbox" />
                 <p className="task__text">{text}</p>
             </div>
+            <button className="icon icon-delete" onClick={() => deleteTask(index)}>
+                <IconTrash className="trash" />
+            </button>
         </li>
     );
 };

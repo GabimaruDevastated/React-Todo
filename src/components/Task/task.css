@@ -44,3 +44,7 @@
     width: 1.5rem;
 }
 
+.icon {
+    background-color: transparent;
+    padding: 0.5rem;
+}
