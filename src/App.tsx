@@ -14,6 +14,12 @@ function App() {
         setNewTask(event.target.value);
     };
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            addTask();
+        }
+    };
+
     const addTask = () => {
         if (newTask.trim() !== "") {
             setTasks([...tasks, newTask]);
@@ -29,7 +35,14 @@ function App() {
         <div className="App">
             <h1 className="title">To-Do List</h1>
             <div className="add-task-wrapper">
-                <input className="input" type="text" id="newTask" value={newTask} onChange={handleInputChange} />
+                <input
+                    className="input"
+                    type="text"
+                    id="newTask"
+                    value={newTask}
+                    onKeyDown={handleKeyDown}
+                    onChange={handleInputChange}
+                />
                 <button className="button" onClick={addTask}>
                     Add Task
                 </button>
