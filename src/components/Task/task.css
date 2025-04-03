@@ -43,6 +43,10 @@
     font-size: 1.125rem;
 }
 
+.task__inner:has(.checkbox:checked) .task__text {
+    text-decoration: line-through;
+}
+
 .trash {
     width: 1.5rem;
 }

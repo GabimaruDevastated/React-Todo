@@ -32,6 +32,16 @@
     max-height: 2.25rem;
     text-wrap: nowrap;
     border-radius: 0.5rem;
+    transition: filter 0.15s ease-in-out;
+    -webkit-transition: filter 0.15s ease-in-out;
+    -moz-transition: filter 0.15s ease-in-out;
+    -ms-transition: filter 0.15s ease-in-out;
+    -o-transition: filter 0.15s ease-in-out;
+}
+
+.button:hover {
+    filter: brightness(80%);
+    -webkit-filter: brightness(80%);
 }
 
 .add-task-wrapper {
