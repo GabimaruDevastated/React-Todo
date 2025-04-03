@@ -41,5 +41,5 @@ a {
 }
 
 :focus-visible {
-    outline: 3px dashed var(--black-color);
+    outline: 3px dashed var(--accent-color);
 }
