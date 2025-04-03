@@ -11,7 +11,11 @@ interface ObjectTask {
 function App() {
     const storedTasks = localStorage.getItem("tasks");
     const [tasks, setTasks] = useState<ObjectTask[]>(storedTasks ? JSON.parse(storedTasks) : []);
-    const [newTask, setNewTask] = useState<ObjectTask>({ id: tasks.length, checked: false, text: "" });
+    const [newTask, setNewTask] = useState<ObjectTask>({
+        id: tasks.reduce((max, task) => Math.max(max, task.id), 0) + 1,
+        checked: false,
+        text: "",
+    });
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewTask({ ...newTask, text: event.target.value });
@@ -25,10 +29,11 @@ function App() {
 
     const addTask = () => {
         if (newTask && newTask.text.trim() !== "") {
-            const updatedTasks = [...tasks, newTask];
+            const maxId = tasks.reduce((max, task) => Math.max(max, task.id), 0);
+            const updatedTasks = [...tasks, { ...newTask, id: maxId + 1 }];
             setTasks(updatedTasks);
             localStorage.setItem("tasks", JSON.stringify(updatedTasks));
-            setNewTask({ id: tasks.length, checked: false, text: "" });
+            setNewTask({ id: maxId + 1, checked: false, text: "" });
         }
     };
 
