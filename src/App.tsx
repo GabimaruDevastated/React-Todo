@@ -2,16 +2,19 @@ import { useState } from "react";
 import "./styles/App.css";
 import Task from "./components/Task/Task";
 
+interface ObjectTask {
+    id: number;
+    checked: boolean;
+    text: string;
+}
+
 function App() {
-    const [tasks, setTasks] = useState<string[]>([
-        "mmmmmmmmmmmmmmmmmmmmm",
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem iure debitis officia consequatur vel exercitationem, nobis maiores molestiae odit earum reiciendis vero magnam obcaecati dolor aspernatur asperiores aliquam! Rerum, nulla?",
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem iure debitis officia consequatur",
-    ]);
-    const [newTask, setNewTask] = useState("");
+    const storedTasks = localStorage.getItem("tasks");
+    const [tasks, setTasks] = useState<ObjectTask[]>(storedTasks ? JSON.parse(storedTasks) : []);
+    const [newTask, setNewTask] = useState<ObjectTask>({ id: tasks.length, checked: false, text: "" });
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setNewTask(event.target.value);
+        setNewTask({ ...newTask, text: event.target.value });
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -21,14 +24,31 @@ function App() {
     };
 
     const addTask = () => {
-        if (newTask.trim() !== "") {
-            setTasks([...tasks, newTask]);
-            setNewTask("");
+        if (newTask && newTask.text.trim() !== "") {
+            const updatedTasks = [...tasks, newTask];
+            setTasks(updatedTasks);
+            localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+            setNewTask({ id: tasks.length, checked: false, text: "" });
         }
     };
 
     const deleteTask = (index: number) => {
-        setTasks(tasks.filter((_, i) => i !== index));
+        const updatedTasks = tasks.filter((i) => i.id !== index);
+        setTasks(updatedTasks);
+        localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+    };
+
+    const handleChecked = (index: number) => {
+        const updatedTasks = tasks.map((item) => {
+            if (item.id === index) {
+                return { ...item, checked: !item.checked };
+            } else {
+                return item;
+            }
+        });
+
+        setTasks(updatedTasks);
+        localStorage.setItem("tasks", JSON.stringify(updatedTasks));
     };
 
     return (
@@ -39,7 +59,7 @@ function App() {
                     className="input"
                     type="text"
                     id="newTask"
-                    value={newTask}
+                    value={newTask.text}
                     onKeyDown={handleKeyDown}
                     onChange={handleInputChange}
                 />
@@ -48,8 +68,17 @@ function App() {
                 </button>
             </div>
             <ol className="tasks">
-                {tasks.map((text, index) => {
-                    return <Task text={text} index={index} deleteTask={deleteTask} />;
+                {tasks.map((task) => {
+                    return (
+                        <Task
+                            key={task.id}
+                            index={task.id}
+                            checked={task.checked}
+                            handleChecked={handleChecked}
+                            text={task.text}
+                            deleteTask={deleteTask}
+                        />
+                    );
                 })}
             </ol>
             <p className="developer">
