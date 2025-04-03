@@ -12,10 +12,14 @@ function App() {
     const storedTasks = localStorage.getItem("tasks");
     const [tasks, setTasks] = useState<ObjectTask[]>(storedTasks ? JSON.parse(storedTasks) : []);
     const [newTask, setNewTask] = useState<ObjectTask>({
-        id: tasks.reduce((max, task) => Math.max(max, task.id), 0) + 1,
+        id: maxId(),
         checked: false,
         text: "",
     });
+
+    function maxId() {
+        return tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1;
+    }
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewTask({ ...newTask, text: event.target.value });
@@ -29,11 +33,10 @@ function App() {
 
     const addTask = () => {
         if (newTask && newTask.text.trim() !== "") {
-            const maxId = tasks.reduce((max, task) => Math.max(max, task.id), 0);
-            const updatedTasks = [...tasks, { ...newTask, id: maxId + 1 }];
+            const updatedTasks = [...tasks, { ...newTask, id: maxId() }];
             setTasks(updatedTasks);
             localStorage.setItem("tasks", JSON.stringify(updatedTasks));
-            setNewTask({ id: maxId + 1, checked: false, text: "" });
+            setNewTask({ id: maxId(), checked: false, text: "" });
         }
     };
 
@@ -63,6 +66,7 @@ function App() {
                 <input
                     className="input"
                     type="text"
+                    placeholder="Task text"
                     id="newTask"
                     value={newTask.text}
                     onKeyDown={handleKeyDown}
