@@ -16,7 +16,7 @@
 
 .input {
     padding: 0.5rem 0.75rem;
-    border: 1px solid var(--black-color);
+    border: 1px solid var(--black-light-color);
     height: 100%;
     max-height: 2.25rem;
     width: 100%;
