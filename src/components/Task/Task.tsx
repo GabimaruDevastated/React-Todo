@@ -1,9 +1,11 @@
 import { FC } from "react";
 import IconTrash from "../../assets/icons/trash";
 import "./task.css";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface TaskProps {
-    index: number;
+    id: number;
     text: string;
     checked: boolean;
     handleChecked: (index: number) => void;
@@ -11,21 +13,32 @@ interface TaskProps {
 }
 
 const Task: FC<TaskProps> = (props) => {
-    const { index, text, checked, handleChecked, deleteTask } = props;
+    const { id, text, checked, handleChecked, deleteTask } = props;
+    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
+
+    const styles = {
+        transition,
+        transform: CSS.Translate.toString(transform),
+    };
 
     return (
-        <li className="task">
+        <li ref={setNodeRef} {...attributes} {...listeners} style={styles} className="task">
             <div className="task__inner">
                 <input
                     className="checkbox"
-                    onChange={() => handleChecked(index)}
+                    onChange={() => handleChecked(id)}
                     checked={checked}
                     type="checkbox"
                     name="checkbox"
                 />
                 <p className="task__text">{text}</p>
             </div>
-            <button className="icon icon-delete" onClick={() => deleteTask(index)}>
+            <button
+                className="icon icon-delete"
+                onClick={() => {
+                    deleteTask(id);
+                }}
+            >
                 <IconTrash className="trash" />
             </button>
         </li>

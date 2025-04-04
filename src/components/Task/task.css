@@ -30,6 +30,7 @@
     -moz-border-radius: 0.5rem;
     -ms-border-radius: 0.5rem;
     -o-border-radius: 0.5rem;
+    touch-action: none;
 }
 
 .task__inner {
